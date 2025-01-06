@@ -1,0 +1,102 @@
+@import url(variables.css);
+@import url(navbar.css);
+@import url('https://fonts.googleapis.com/css2?family=Goldman:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Goldman:wght@400;700&family=Quicksand:wght@300..700&display=swap');
+
+*, ::before, ::after {
+    box-sizing: border-box;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2, h3, h4 {
+    font-family: Goldman, sans-serif;
+    color: var(--main-color);
+    font-weight: 550;
+    text-shadow: rgba(0, 0, 0, 0.2) 1px 1px 1px;
+}
+
+p {
+    font-family: Quicksand, sans-serif;
+    font-size: 1.25em;
+    font-weight: 500;
+}
+
+ul, nav, nav ul {
+    list-style-type: none;
+}
+
+ul {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1em;
+}
+
+.categorys {
+    display: flex;
+    flex-direction: row;
+    margin: 1em 0;
+    list-style: none    ;
+}
+
+li {
+    margin: 0em 2em;
+    margin-bottom: 0.5em;
+}
+
+
+a {
+    color: var(--font-color-light);
+    text-decoration: none;
+}
+
+.button {
+    font-family: Goldman, sans-serif;
+    font-size: 1.5em;
+    border: 0.25em solid;
+    padding: 0.5em 1em;
+    text-decoration: none;
+    font-weight: bolder;
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
+    min-width: 2em;
+}
+
+.footer-container {
+    font-family: quicksand, sans-serif;
+    font-weight: 600;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    background-color: var(--main-color);
+    color: var(--font-light);
+    padding: 2em;
+}
+.footer-container > * {
+    margin: 0 1em;
+}
+
+.left-side-footer {
+    justify-content: flex-start;
+}
+
+.right-side-footer {
+    justify-content: flex-end;
+}
+
+.right-side-footer img {
+    margin-top: 2em;
+    width: 64px;
+    height: 64px;
+}
+
+.nav-list::after {
+    z-index: 1;
+}
+
+.nav-list > * {
+    z-index: 100;
+}
