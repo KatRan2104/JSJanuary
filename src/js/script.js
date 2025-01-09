@@ -2,6 +2,8 @@
 window.addEventListener("load", async (event) => {
     let allProducts = await getAllProducts();
     displayProducts(allProducts.data);
+    const urlParams = new URLSearchParams(window.location.search);
+    await viewProduct(urlParams.get('id'));
 });
 // Not together with the above
 
@@ -17,7 +19,6 @@ async function fetchProducts() {
         }
 
         const json = await response.json();
-        console.log(json);
 
         // Place info in local storage
         localStorage.setItem("products", JSON.stringify(json));
@@ -40,7 +41,7 @@ async function getAllProducts() {
 // Gets product by specific IDs as given in the array.
 async function getProductById(id) {
     const products = await getAllProducts();
-    return products.find(product => product.id === id);
+    return products.data.find(product => product.id === id);
 }
 
 // Adds product by ID to basket in local storage
@@ -73,8 +74,10 @@ function removeFromBasket(productId) {
 // Display products on front page - Display products
 function displayProducts(productsToDisplay) {
     let productList = document.getElementById("product-list");
+    if (productList===null) {
+        return;
+    }
     productList.innerHTML = "";
-    console.log(productsToDisplay);
     if (!productsToDisplay.length) {
         productList.innerHTML = "<p>No Products found</p>";
         return;
@@ -86,14 +89,18 @@ function displayProducts(productsToDisplay) {
             <img src="${product.image.url}" alt="${product.title}">
             <h3>${product.title}</h3>
             <p>Price: $${product.price}</p>
-            <button onclick="viewProduct(${product.id})">View Product</button>
+            <button onclick="goToProductPage('${product.id}')">View Product</button>
         `;
         productList.appendChild(productDiv);
     });
 }
 
-function viewProduct(prodcutId) {
-    const product = products.find(p => p.id === prodcutId);
+function goToProductPage(productId) {
+    window.location.href = "./product/index.html?id=" + productId;
+}
+
+async function viewProduct(productId) {
+    let product = await getProductById(productId);
     if (!product) {
         return;
     }
@@ -101,7 +108,7 @@ function viewProduct(prodcutId) {
     productPage.className = "product-details";
     productPage.innerHTML = `
             <h2>${product.title}</h2>
-            <img src="${product.image}" alt="${product.title}">
+            <img src="${product.image.url}" alt="${product.title}">
             <p>${product.description}</p>
             <p>Price: $${product.price}</p>
             <button onclick="addToBasket(${product.id})">Add to Basket</button>
