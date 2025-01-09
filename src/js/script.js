@@ -8,7 +8,6 @@ window.addEventListener("load", async (event) => {
 // Not together with the above
 
 
-
 // This part works - Fetching all products list
 async function fetchProducts() {
     const url = "https://v2.api.noroff.dev/rainy-days";
@@ -111,7 +110,7 @@ async function viewProduct(productId) {
             <img src="${product.image.url}" alt="${product.title}">
             <p>${product.description}</p>
             <p>Price: $${product.price}</p>
-            <button onclick="addToBasket(${product.id})">Add to Basket</button>
+            <button onclick="addToBasket('${product.id}')">Add to Basket</button>
             <button onclick="closeProductPage()">Close</button>
         `;
     document.body.appendChild(productPage);
