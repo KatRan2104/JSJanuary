@@ -1,7 +1,11 @@
 
-window.addEventListener("load", (event) => {
+window.addEventListener("load", async (event) => {
+    let allProducts = await getAllProducts();
+    displayProducts(allProducts.data);
 });
 // Not together with the above
+
+
 
 // This part works - Fetching all products list
 async function fetchProducts() {
@@ -22,7 +26,6 @@ async function fetchProducts() {
     }
 
 }
-fetchProducts();
 
 
 // Await for the products to be loaded to the local storage and then get them.
@@ -41,34 +44,46 @@ async function getProductById(id) {
 }
 
 // Adds product by ID to basket in local storage
-// FIKS SÅNN AT JEG KAN ADDE MER ENN ETT PRODUKT AV GANGEN!!!!!!!!!!!!!
 function addToBasket(productId) {
-    const basket = JSON.parse(localStorage.getItem("basket")) || [];
-    basket.push(productId);
+    let basket = JSON.parse(localStorage.getItem("basket")) || {};
+    let isInBasket = basket.hasOwnProperty(productId);
+    if (isInBasket) {
+        basket[productId] += 1;
+    }
+    else {
+        basket[productId] = 1;
+    }
     localStorage.setItem("basket", JSON.stringify(basket));
 }
 
 // Removes product by ID from basket in local storage
-// FIKS SÅNN AT JEG KAN FJERNE EN BESTEMT AV ETT PRODUKT OG IKKE ALLE AV GANGEN!!!!!!!!!!!!! HINT (info om antall er nyttig)
 function removeFromBasket(productId) {
-    const basket = JSON.parse(localStorage.getItem("basket")) || [];
-    const newBasket = basket.filter(id => id !== productId);
-    localStorage.setItem("basket", JSON.stringify(newBasket));
+    let basket = JSON.parse(localStorage.getItem("basket")) || {};
+    let isInBasket = basket.hasOwnProperty(productId);
+    if (isInBasket) {
+        basket[productId] -= 1;
+        if (basket[productId] <= 0) {
+            delete basket[productId];
+        }
+    }
+    localStorage.setItem("basket", JSON.stringify(basket));
 }
 
 
-
+// Display products on front page - Display products
 function displayProducts(productsToDisplay) {
+    let productList = document.getElementById("product-list");
     productList.innerHTML = "";
+    console.log(productsToDisplay);
     if (!productsToDisplay.length) {
-        porductList.innerHTML = "<p>Noe Products found</p>";
+        productList.innerHTML = "<p>No Products found</p>";
         return;
     }
     productsToDisplay.forEach(product => {
         const productDiv = document.createElement("div");
         productDiv.className = "product";
         productDiv.innerHTML = `
-            <img src="${product.image}" alt="${product.title}">
+            <img src="${product.image.url}" alt="${product.title}">
             <h3>${product.title}</h3>
             <p>Price: $${product.price}</p>
             <button onclick="viewProduct(${product.id})">View Product</button>
@@ -77,8 +92,8 @@ function displayProducts(productsToDisplay) {
     });
 }
 
-function viewProduct(prodcutID) {
-    const product = products.find(p => p.id === prodcutID);
+function viewProduct(prodcutId) {
+    const product = products.find(p => p.id === prodcutId);
     if (!product) {
         return;
     }
@@ -94,6 +109,5 @@ function viewProduct(prodcutID) {
         `;
     document.body.appendChild(productPage);
 }
-
 
 
