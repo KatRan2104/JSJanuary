@@ -1,11 +1,3 @@
-// const apiUrl = "https://v2.api.noroff.dev/rainy-days";
-
-// function skrivDette(bokstaver, tall) {
-//     console.log(bokstaver + tall);
-// }
-// skrivDette("Hei", 5);
-
-
 
 window.addEventListener("load", (event) => {
 });
