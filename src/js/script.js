@@ -98,6 +98,8 @@ function goToProductPage(productId) {
     window.location.href = "./product/index.html?id=" + productId;
 }
 
+
+// Bugg in button onclick="closeProductPage()" - not working as expected 09.10.2025. Logs as undefined one product. Need to make checkout page html too.
 async function viewProduct(productId) {
     let product = await getProductById(productId);
     if (!product) {
