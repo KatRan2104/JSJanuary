@@ -112,8 +112,8 @@ async function viewProduct(productId) {
             <img src="${product.image.url}" alt="${product.title}">
             <p>${product.description}</p>
             <p>Price: $${product.price}</p>
+            <p>Sizes: ${product.sizes}, </p>
             <button onclick="addToBasket('${product.id}')">Add to Basket</button>
-            <button onclick="closeProductPage()">Close</button>
         `;
     document.body.appendChild(productPage);
 }
@@ -131,6 +131,10 @@ async function viewBasket () {
         productList.innerHTML = "<p>No items in basket</p>";
         return;
     }
+
+    let totalCost = 0; // starts the total cost variable.
+
+
     for (const [productId, numberOfItems] of Object.entries(basket)) {
         console.log(`${productId}: ${numberOfItems}`);
         if (productId == "undefined") {
@@ -138,17 +142,31 @@ async function viewBasket () {
         }
         const product = await getProductById(productId);
         console.log(product);
+        if (!product) {
+            continue; // Skip if the product is not found
+        }
+
         const productDiv = document.createElement("div");
         productDiv.className = "product";
         productDiv.innerHTML = `
             <img src="${product.image.url}" alt="${product.title}">
             <h3>${product.title}</h3>
             <p>Price: $${product.price}</p>
-            <button onclick="goToProductPage('${product.id}')">View Product</button>
+            <p>Added items: ${numberOfItems}</p>
         `;
         productList.appendChild(productDiv);
+
+        // Calculate total cost
+        totalCost += product.price * numberOfItems;
     }
+
+    const totalCostDiv = document.createElement("div");
+    totalCostDiv.className = "total-cost";
+    totalCostDiv.innerHTML = `<h3>Total Cost: $${totalCost.toFixed(2)}</h3>`;
+    productList.appendChild(totalCostDiv);
 }
+
+/* <button onclick="goToProductPage('${product.id}')">View Product</button> */
 
 function isEmpty(obj) {
     for (const prop in obj) {
@@ -159,3 +177,4 @@ function isEmpty(obj) {
 
     return true;
 }
+
