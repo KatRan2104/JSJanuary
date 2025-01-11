@@ -4,6 +4,7 @@ window.addEventListener("load", async (event) => {
     displayProducts(allProducts.data);
     const urlParams = new URLSearchParams(window.location.search);
     await viewProduct(urlParams.get('id'));
+    await viewBasket();
 });
 // Not together with the above
 
@@ -26,7 +27,6 @@ async function fetchProducts() {
     }
 
 }
-
 
 // Await for the products to be loaded to the local storage and then get them.
 async function getAllProducts() {
@@ -118,4 +118,44 @@ async function viewProduct(productId) {
     document.body.appendChild(productPage);
 }
 
+//View basket/checkout page - and confirme checkout.
+async function viewBasket () {
+    let basket = JSON.parse(localStorage.getItem("basket")) || {};
 
+    let productList = document.getElementById("checkout-display");
+    if (productList===null) {
+        return;
+    }
+    productList.innerHTML = "";
+    if (isEmpty(basket)) {
+        productList.innerHTML = "<p>No items in basket</p>";
+        return;
+    }
+    for (const [productId, numberOfItems] of Object.entries(basket)) {
+        console.log(`${productId}: ${numberOfItems}`);
+        if (productId == "undefined") {
+            continue;
+        }
+        const product = await getProductById(productId);
+        console.log(product);
+        const productDiv = document.createElement("div");
+        productDiv.className = "product";
+        productDiv.innerHTML = `
+            <img src="${product.image.url}" alt="${product.title}">
+            <h3>${product.title}</h3>
+            <p>Price: $${product.price}</p>
+            <button onclick="goToProductPage('${product.id}')">View Product</button>
+        `;
+        productList.appendChild(productDiv);
+    }
+}
+
+function isEmpty(obj) {
+    for (const prop in obj) {
+        if (Object.hasOwn(obj, prop)) {
+            return false;
+        }
+    }
+
+    return true;
+}
