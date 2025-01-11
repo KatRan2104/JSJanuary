@@ -152,7 +152,11 @@ async function viewBasket () {
             <img src="${product.image.url}" alt="${product.title}">
             <h3>${product.title}</h3>
             <p>Price: $${product.price}</p>
-            <p>Added items: ${numberOfItems}</p>
+            <div class="quantity-controls">
+                <button onclick="changeQuantity('${productId}', -1)">-</button>
+                <span id="quantity-${productId}">${numberOfItems}</span>
+                <button onclick="changeQuantity('${productId}', 1)">+</button>
+            </div>
         `;
         productList.appendChild(productDiv);
 
@@ -164,6 +168,22 @@ async function viewBasket () {
     totalCostDiv.className = "total-cost";
     totalCostDiv.innerHTML = `<h3>Total Cost: $${totalCost.toFixed(2)}</h3>`;
     productList.appendChild(totalCostDiv);
+}
+
+// Change quantity of product in basket
+function changeQuantity(productId, change) {
+    let basket = JSON.parse(localStorage.getItem("basket")) || {};
+
+    if (!basket[productId]) return; // Product not in basket
+
+    basket[productId] += change;
+
+    if (basket[productId] <= 0) {
+        delete basket[productId]; // Remove product if quantity is 0
+    }
+
+    localStorage.setItem("basket", JSON.stringify(basket));
+    viewBasket(); // Refresh the basket display
 }
 
 /* <button onclick="goToProductPage('${product.id}')">View Product</button> */
@@ -178,3 +198,4 @@ function isEmpty(obj) {
     return true;
 }
 
+/* <p>Added items: ${numberOfItems}</p> */
