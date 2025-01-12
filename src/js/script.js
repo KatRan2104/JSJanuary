@@ -74,30 +74,39 @@ function removeFromBasket(productId) {
     localStorage.setItem("basket", JSON.stringify(basket));
 }
 
+function checkIfOnSale(product) {
+    if (product.onSale) {
+        return `This product is on sale! Discounted Price: $${product.discountedPrice}`;
+    } else {
+        return `Price: $${product.price}`;
+    }
+}
 
 
 function displayProducts(productsToDisplay) {
     let productList = document.getElementById("product-list");
     if (productList===null) {
-    return;
+        return;
     }
     productList.innerHTML = "";
 
     if (!productsToDisplay.length) {
-    productList.innerHTML = "<p>No Products found</p>";
-    return;
+        productList.innerHTML = "<p>No Products found</p>";
+        return;
     }
+
     productsToDisplay.forEach(product => {
-    const productDiv = document.createElement("div");
-    productDiv.className = "product";
-    productDiv.innerHTML = `
-        <img src="${product.image.url}" alt="${product.title}">
-        <h3>${product.title}</h3>
-        <p>Price: $${product.price}</p>
-        <button onclick="goToProductPage('${product.id}')">View Product</button>
-        <button onclick="addToBasket('${product.id}')">Add to Basket</button>
-    `;
-    productList.appendChild(productDiv);
+        const onSaleMessage = checkIfOnSale(product);
+        const productDiv = document.createElement("div");
+        productDiv.className = "product";
+        productDiv.innerHTML = `
+            <img src="${product.image.url}" alt="${product.title}">
+            <h3>${product.title}</h3>
+            <p>${onSaleMessage}</p>
+            <button onclick="goToProductPage('${product.id}')">View Product</button>
+            <button onclick="addToBasket('${product.id}')">Add to Basket</button>
+        `;
+        productList.appendChild(productDiv);
     });
 }
 
@@ -131,12 +140,13 @@ async function viewProduct(productId) {
         return;
     }
     const productPage =  document.createElement("div");
+    const onSaleMessage = checkIfOnSale(product);
     productPage.className = "product-details";
     productPage.innerHTML = `
             <h2>${product.title}</h2>
             <img src="${product.image.url}" alt="${product.title}">
             <p>${product.description}</p>
-            <p>Price: $${product.price}</p>
+            <p>${onSaleMessage}</p>
             <p>Sizes: ${product.sizes}, </p>
             <button onclick="addToBasket('${product.id}')">Add to Basket</button>
             <button onclick="continueShopping()">Continue Shopping</button>
@@ -173,11 +183,12 @@ async function viewBasket () {
         }
 
         const productDiv = document.createElement("div");
+        const onSaleMessage = checkIfOnSale(product);
         productDiv.className = "product";
         productDiv.innerHTML = `
             <img src="${product.image.url}" alt="${product.title}">
             <h3>${product.title}</h3>
-            <p>Price: $${product.price}</p>
+            <p>Price: $${onSaleMessage}</p>
             <div class="quantity-controls">
                 <button onclick="changeQuantity('${productId}', -1)">-</button>
                 <span id="quantity-${productId}">${numberOfItems}</span>
@@ -187,7 +198,12 @@ async function viewBasket () {
         productList.appendChild(productDiv);
 
         // Calculate total cost
-        totalCost += product.price * numberOfItems;
+        if (product.onSale) {
+            totalCost += product.discountedPrice * numberOfItems;
+        }
+        else {
+            totalCost += product.price * numberOfItems;
+        }
     }
 
     const totalCostDiv = document.createElement("div");
