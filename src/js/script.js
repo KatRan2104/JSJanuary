@@ -174,12 +174,10 @@ async function viewBasket () {
 
 
     for (const [productId, numberOfItems] of Object.entries(basket)) {
-        console.log(`${productId}: ${numberOfItems}`);
         if (productId == "undefined") {
             continue;
         }
         const product = await getProductById(productId);
-        console.log(product);
         if (!product) {
             continue; // Skip if the product is not found
         }
