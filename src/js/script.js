@@ -7,12 +7,16 @@ window.addEventListener("load", async (event) => {
     await viewProduct(urlParams.get('id'));
     await viewBasket();
 });
-// Not together with the above
 
 
 // This part works - Fetching all products list
 async function fetchProducts() {
     const url = "https://v2.api.noroff.dev/rainy-days";
+    let container = document.getElementsByTagName("main")[0];
+    let spinner = document.createElement("div");
+    spinner.className = "spinner";
+    container.appendChild(spinner);
+    // await new Promise(resolve => setTimeout(resolve, 1000)); // Wait for 1 second
     try {
         const response = await fetch(url);
         if (!response.ok) {
@@ -26,7 +30,7 @@ async function fetchProducts() {
     } catch (error) {
         console.error(error.message);
     }
-
+    container.removeChild(spinner);
 }
 
 // Await for the products to be loaded to the local storage and then get them.
