@@ -1,3 +1,4 @@
+// THIS IS THE ONE THAT IS IN USE FOR THE SECOND TRY!! 12.01.2025
 
 window.addEventListener("load", async (event) => {
     let allProducts = await getAllProducts();
@@ -70,28 +71,47 @@ function removeFromBasket(productId) {
 }
 
 
-// Display products on front page - Display products
+
 function displayProducts(productsToDisplay) {
     let productList = document.getElementById("product-list");
     if (productList===null) {
-        return;
+    return;
     }
     productList.innerHTML = "";
+
     if (!productsToDisplay.length) {
-        productList.innerHTML = "<p>No Products found</p>";
-        return;
+    productList.innerHTML = "<p>No Products found</p>";
+    return;
     }
     productsToDisplay.forEach(product => {
-        const productDiv = document.createElement("div");
-        productDiv.className = "product";
-        productDiv.innerHTML = `
-            <img src="${product.image.url}" alt="${product.title}">
-            <h3>${product.title}</h3>
-            <p>Price: $${product.price}</p>
-            <button onclick="goToProductPage('${product.id}')">View Product</button>
-        `;
-        productList.appendChild(productDiv);
+    const productDiv = document.createElement("div");
+    productDiv.className = "product";
+    productDiv.innerHTML = `
+        <img src="${product.image.url}" alt="${product.title}">
+        <h3>${product.title}</h3>
+        <p>Price: $${product.price}</p>
+        <button onclick="goToProductPage('${product.id}')">View Product</button>
+    `;
+    productList.appendChild(productDiv);
     });
+}
+
+// Filter products by gender
+async function showMaleJackets() {
+    let allProducts = await getAllProducts();
+    let maleProducts = allProducts.data.filter(product => product.gender === "Male");
+    displayProducts(maleProducts);
+}
+
+async function showFemaleJackets() {
+    let allProducts = await getAllProducts();
+    let femaleProducts = allProducts.data.filter(product => product.gender === "Female");
+    displayProducts(femaleProducts);
+}
+
+async function showAllJackets() {
+    let allProducts = await getAllProducts();
+    displayProducts(allProducts.data);
 }
 
 function goToProductPage(productId) {
@@ -199,3 +219,4 @@ function isEmpty(obj) {
 }
 
 /* <p>Added items: ${numberOfItems}</p> */
+
