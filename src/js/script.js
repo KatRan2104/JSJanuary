@@ -223,5 +223,5 @@ function continueShopping() {
 
 function confirmationCheckoutPage() {
     localStorage.setItem("basket", JSON.stringify({}));
-    window.location.href = "./confirmation-checkout/index.html";
+    window.location.href = "./confirmation/index.html";
 }
