@@ -24,12 +24,25 @@ header {
     flex-wrap: wrap;
     gap: 1rem;
 }
+
+#product-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        align-items: center;
+        flex-direction: row;
+        justify-content: space-around;
+}
+
 .product {
-    border: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
     padding: 1rem;
     width: calc(33.333% - 2rem);
     box-sizing: border-box;
 }
+
 .product img {
     max-width: 100%;
     height: auto;
