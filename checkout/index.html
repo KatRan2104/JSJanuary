@@ -6,11 +6,11 @@
     <title>Rainy days| Home</title>
     <meta name="description" content="The checkout page of Rainy days. It showcases their product list, news and store info">
     <meta name="author" content="Katarina Randby">
-    <link rel="stylesheet" href="../../../src/css/index-two.css">
-    <link rel="stylesheet" href="../../../src/css/main.css">
-    <link rel="stylesheet" href="../../../src/css/navbar.css">
+    <link rel="stylesheet" href="../src/css/index-two.css">
+    <link rel="stylesheet" href="../src/css/main.css">
+    <link rel="stylesheet" href="../src/css/navbar.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"/>
-    <script src="../../../src/js/script.js"></script>
+    <script src="../src/js/script.js"></script>
 </head>
 <body>
     <header>
@@ -23,21 +23,19 @@
             <label class="nav-button-container" for="nav-toggle"><span class="nav-button"></span></label>
             <ul class="nav-list">
                 <li><a href="/index.html">Home</a></li>
-                <li id="basket-items>"><a href="../../checkout/index.html">Basket</a>
+                <li id="basket-items>"><a href="./index.html">Basket</a>
             </ul>
         </nav>
     </header>
     <main class="container">
 
-        <!-- <section class="products">
+        <section class="products">
             <div id="checkout-display"></div>
-        </section> -->
-        <section class="checkout-confirmation">
-            <div id="sucessfull-purchase">
-                <h2>Thank you for your purchase!</h2>
-                <p>Your order has been confirmed and will be shipped to you shortly.</p>
-                <p>Order number: 123456</p>
-                <p>Estimated delivery: 3-5 days</p>
+        </section>
+        <section class="checkout">
+            <div id="checkout-sum">
+                <button id="checkout-button" onclick="confirmationCheckoutPage()">Checkout</button>
+                <button id="continue-shopping" onclick="continueShopping()">Continue Shopping</button>
             </div>
         </section>
     </main>
