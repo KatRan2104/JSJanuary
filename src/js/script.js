@@ -218,7 +218,7 @@ function isEmpty(obj) {
 }
 
 function continueShopping() {
-    window.location.href = "../../index-landing-page.html";
+    window.location.href = "../../index.html";
 }
 
 function confirmationCheckoutPage() {
