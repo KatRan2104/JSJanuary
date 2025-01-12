@@ -151,7 +151,9 @@ async function viewProduct(productId) {
             <button onclick="addToBasket('${product.id}')">Add to Basket</button>
             <button onclick="continueShopping()">Continue Shopping</button>
         `;
-    document.body.appendChild(productPage);
+    let container = document.getElementsByTagName("main")[0];
+    container.appendChild(productPage);
+    // document.body.appendChild(productPage);
 }
 
 //View basket/checkout page - and confirme checkout.
@@ -236,7 +238,6 @@ function isEmpty(obj) {
     }
     return true;
 }
-
 function continueShopping() {
     window.location.href = "../index.html";
 }
