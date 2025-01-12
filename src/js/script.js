@@ -119,7 +119,7 @@ function goToProductPage(productId) {
 }
 
 
-// Bugg in button onclick="closeProductPage()" - not working as expected 09.10.2025. Logs as undefined one product. Need to make checkout page html too.
+//View product page
 async function viewProduct(productId) {
     let product = await getProductById(productId);
     if (!product) {
@@ -134,6 +134,7 @@ async function viewProduct(productId) {
             <p>Price: $${product.price}</p>
             <p>Sizes: ${product.sizes}, </p>
             <button onclick="addToBasket('${product.id}')">Add to Basket</button>
+            <button onclick="continueShopping()">Continue Shopping</button>
         `;
     document.body.appendChild(productPage);
 }
@@ -206,17 +207,20 @@ function changeQuantity(productId, change) {
     viewBasket(); // Refresh the basket display
 }
 
-/* <button onclick="goToProductPage('${product.id}')">View Product</button> */
-
 function isEmpty(obj) {
     for (const prop in obj) {
         if (Object.hasOwn(obj, prop)) {
             return false;
         }
     }
-
     return true;
 }
 
-/* <p>Added items: ${numberOfItems}</p> */
+function continueShopping() {
+    window.location.href = "../../index-landing-page.html";
+}
 
+function confirmationCheckoutPage() {
+    localStorage.setItem("basket", JSON.stringify({}));
+    window.location.href = "./confirmation-checkout/index.html";
+}
