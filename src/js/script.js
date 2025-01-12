@@ -91,6 +91,7 @@ function displayProducts(productsToDisplay) {
         <h3>${product.title}</h3>
         <p>Price: $${product.price}</p>
         <button onclick="goToProductPage('${product.id}')">View Product</button>
+        <button onclick="addToBasket('${product.id}')">Add to Basket</button>
     `;
     productList.appendChild(productDiv);
     });
