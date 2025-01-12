@@ -36,10 +36,14 @@ header {
 .product {
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
+    justify-content: space-between; /* Aligns children vertically */
     padding: 1rem;
-    width: calc(33.333% - 2rem);
+    width: calc(33.333% - 2rem); /* Adjust for three products per row */
     box-sizing: border-box;
+}
+
+.product h3, .product p, .product button {
+    text-align: center; /* Center align title, price, and buttons */
 }
 
 .product img {
@@ -119,4 +123,16 @@ button {
     background: #0A3641;
     column-gap: 1.3rem;
     font-size: 20px;
+}
+
+@media (max-width: 750px) {
+    #product-list {
+        flex-direction: column; /* Change to column layout */
+        align-items: center; /* Center items in the column */
+    }
+
+    .product {
+        width: 100%; /* Each product takes full width */
+        margin: 10px 0; /* Vertical margin */
+    }
 }
